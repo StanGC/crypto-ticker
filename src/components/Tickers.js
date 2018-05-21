@@ -41,10 +41,7 @@ class Tickers extends Component {
 
   render() {
     var tickers = this.state.data.map((currency) =>
-      <li key={currency.id}>
-        <h3>{currency.id}</h3>
-        <h4>{currency.price} USD</h4>
-      </li>
+      <Cryptocurrency data={currency} key={currency.id} />
     );
     return (
       <div className="tickers-container">
