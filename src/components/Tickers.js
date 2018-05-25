@@ -1,6 +1,7 @@
 import React,  { Component } from 'react';
 import Cryptocurrency from './Cryptocurrency';
-import './Tickers.css'
+import './Tickers.css';
+import axios from 'axios';
 
 class Tickers extends Component {
 
@@ -9,13 +10,13 @@ class Tickers extends Component {
     this.state = {
       data: [
         {
-            id: "bitcoin",
-            name: "Bitcoin",
-            symbol: "BTC",
-            price_usd: "1",
-            percent_change_1h: "0",
-            percent_change_24h: "0",
-            percent_change_7d: "0",
+          id: "bitcoin",
+          name: "Bitcoin",
+          symbol: "BTC",
+          price_usd: "1",
+          percent_change_1h: "0",
+          percent_change_24h: "0",
+          percent_change_7d: "0",
         },
         {
           id: "ethereum",
@@ -27,9 +28,36 @@ class Tickers extends Component {
           percent_change_7d: "0",
         },
         {
+          id: "bitcoin-cash",
+          name: "Bitcoin Cash",
+          symbol: "BCH",
+          price_usd: "1",
+          percent_change_1h: "0",
+          percent_change_24h: "0",
+          percent_change_7d: "0",
+        },
+        {
+          id: "eos",
+          name: "EOS",
+          symbol: "EOS",
+          price_usd: "1",
+          percent_change_1h: "0",
+          percent_change_24h: "0",
+          percent_change_7d: "0",
+        },
+        {
           id: "litecoin",
           name: "Litecoin",
           symbol: "LTC",
+          price_usd: "1",
+          percent_change_1h: "0",
+          percent_change_24h: "0",
+          percent_change_7d: "0",
+        },
+        {
+          id: "iota",
+          name: "IOTA",
+          symbol: "MIOTA",
           price_usd: "1",
           percent_change_1h: "0",
           percent_change_24h: "0",
@@ -50,6 +78,21 @@ class Tickers extends Component {
       </div>
     );
   }
+
+  fetchCryptocurrencyData() {
+  axios.get("https://api.coinmarketcap.com/v1/ticker/?limit=10")
+    .then(response => {
+      var wanted = ["bitcoin", "ethereum", "litecoin", "bitcoin-cash", "eos", "iota"]
+      var result = response.data.filter(currency => wanted.includes(currency.id));
+      this.setState({ data: result});
+    })
+    .catch(err => console.log(err));
+  }
+
+  componentDidMount() {
+    this.fetchCryptocurrencyData();
+    this.interval = setInterval(() => this.fetchCryptocurrencyData(), 60 * 1000);
+  }
 }
 
-export  default Tickers;
+export default Tickers;

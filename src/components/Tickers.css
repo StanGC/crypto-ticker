@@ -1,5 +1,14 @@
+.tickers-container {
+  margin: 2rem auto;
+}
+
+ul.tickers {
+  padding: 0;
+}
+
 .tickers {
   list-style-type: none;
-  padding: 0;
-  display: inline-flex;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2rem;
 }
